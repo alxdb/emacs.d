@@ -1,3 +1,6 @@
 .auto-saves
 .backups
 .packages
+.config.el
+.config.elc
+.transient

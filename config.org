@@ -1,0 +1,68 @@
+#+TITLE: alxdb's Emacs Config
+#+AUTHOR: alxdb
+
+#+PROPERTY: header-args :results silent
+
+* Editing
+** Evil
+Enable evil mode everywhere. Evil should set the evil state
+approriately, based on the major mode of the buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-init-hook 'evil-mode)
+#+END_SRC
+
+* Display
+** Writeroom Mode
+Set writeroom mode width to the value of fill-column on startup. Add
+some padding so that if fill-column isn't exactly adhered to, that's
+okay.
+
+#+BEGIN_SRC emacs-lisp
+  (defun alxdb/set-writeroom-mode-width ()
+    (customize-set-variable 'writeroom-width (+ fill-column 5)))
+  (add-hook 'writeroom-mode-hook 'alxdb/set-writeroom-mode-width)
+#+END_SRC
+
+** Company
+Enable globally
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-init-hook 'global-company-mode)
+#+END_SRC
+
+** Helm
+Enable for spec, should use helm completion for all =completing-read=
+and =read-file-name= invocations. Additionally, certain commands have
+to be replaced specifically with helm commands. they are specified
+below.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-x") #'helm-M-x)
+  (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (helm-mode 1)
+#+END_SRC
+
+** Rainbow Delimiters
+Enable for specific modes.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+* Tooling
+** Magit
+Adding recommended magit key binding. After running this command,
+=magit-dispatch= also becomes available, under =C-x M-g=.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
+
+* Local Variables
+Allows for the recompilation of this config file, without having to do
+it on init.
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'alxdb/tangle-config)
+# End:
