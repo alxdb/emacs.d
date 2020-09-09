@@ -43,6 +43,9 @@
       "emacs-lisp")
      (byte-compile-file (locate-user-emacs-file ".config.el")))))
 (load (locate-user-emacs-file ".config"))
+(defun alxdb/open-config ()
+  (interactive)
+  (find-file (locate-user-emacs-file "config.org")))
 
 ;; Local Variables:
 ;; fill-column: 90

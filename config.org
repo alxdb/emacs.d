@@ -12,6 +12,12 @@ approriately, based on the major mode of the buffer.
   (add-hook 'after-init-hook 'evil-mode)
 #+END_SRC
 
+Enable evil commentary
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'evil-mode-hook 'evil-commentary-mode)
+#+END_SRC
+
 * Display
 ** Writeroom Mode
 Set writeroom mode width to the value of fill-column on startup. Add
@@ -40,6 +46,7 @@ below.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "M-x") #'helm-M-x)
   (global-set-key (kbd "C-x C-f") #'helm-find-files)
+  (global-set-key (kbd "M-l") #'helm-buffers-list)
   (helm-mode 1)
 #+END_SRC
 
@@ -48,6 +55,28 @@ Enable for specific modes.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+** Ace Window
+set keybinding
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-o") 'ace-window)
+#+END_SRC
+
+** Compilation Mode
+this snippet enables ansi color sequences in commpilation mode buffers
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ansi-color)
+  (defun alxdb/colorize-compilation ()
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region
+       compilation-filter-start (point))))
+
+  (add-hook 'compilation-filter-hook
+            #'alxdb/colorize-compilation)
 #+END_SRC
 
 * Tooling
@@ -57,6 +86,58 @@ Adding recommended magit key binding. After running this command,
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x g") 'magit-status)
+#+END_SRC
+
+** LSP Mode
+set the prefix to =C-x l= which has a default keybinding for a
+function I will probably never use
+
+#+BEGIN_SRC emacs-lisp
+  (global-unset-key (kbd "C-x l"))
+  (setq lsp-keymap-prefix "C-x l")
+#+END_SRC
+
+setting evil lookup function
+
+#+BEGIN_SRC emacs-lisp
+  (defun alxdb/set-evil-lookup-lsp ()
+    (setq evil-lookup-func #'lsp-describe-thing-at-point))
+  (add-hook 'lsp-mode-hook #'alxdb/set-evil-lookup-lsp)
+#+END_SRC
+
+** Projectile
+enable projectile globally, and add key bindings
+
+#+BEGIN_SRC emacs-lisp
+  (projectile-mode)
+  (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+#+END_SRC
+
+ignore certain directories always
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'projectile-globally-ignored-directories "__pycache__")
+#+END_SRC
+
+hacky workaround (see https://github.com/bbatsov/projectile/issues/1382)
+
+#+BEGIN_SRC emacs-lisp
+  (require 'subr-x)
+#+END_SRC
+
+** SCLang
+load sclang if present
+
+#+BEGIN_SRC emacs-lisp
+  (load "sclang" t)
+#+END_SRC
+
+** Clang Format
+Add a keymap for formatting via clang
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load "cc-mode"
+      (define-key c-mode-base-map (kbd "C-c C-f") 'clang-format-buffer))
 #+END_SRC
 
 
