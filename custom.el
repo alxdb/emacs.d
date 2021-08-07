@@ -17,10 +17,14 @@
  '(package-archives
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")))
- '(package-selected-packages '(undo-fu helm projectile magit doom-themes evil))
+ '(package-selected-packages
+   '(which-key vterm undo-fu helm projectile magit doom-themes evil))
+ '(projectile-mode t nil (projectile))
+ '(projectile-use-git-grep t)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(which-key-mode t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
