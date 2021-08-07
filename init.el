@@ -8,6 +8,7 @@
  '(auto-save-default nil)
  '(custom-enabled-themes '(doom-vibrant))
  '(custom-safe-themes t)
+ '(default-frame-alist '((width . 200) (height . 60)))
  '(evil-mode t)
  '(inhibit-startup-screen t)
  '(make-backup-files nil)
