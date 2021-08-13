@@ -6,3 +6,5 @@ bookmarks
 projectile-bookmarks.eld
 recentf
 projects
+projectile.cache
+forge-database.sqlite
